@@ -17,6 +17,10 @@ import android.widget.Toast;
 
 import com.example.storeapplication.R;
 import com.example.storeapplication.databinding.FragmentLoginBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,17 +32,21 @@ public class LoginFragment extends Fragment {
     private String password;
     private boolean doubleToBackButtonExit = false;
 
+    FirebaseAuth firebaseAuth;
+
     private String emailPattern = "[a-zA-Z0-9.-_]+@[a-z]+\\.+[a-z]+";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentLoginBinding = DataBindingUtil.inflate(getLayoutInflater(),R.layout.fragment_login,container,false);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         fragmentLoginBinding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendRequest();
+                loginUser();
             }
         });
 
@@ -78,13 +86,27 @@ public class LoginFragment extends Fragment {
 
     }
 
+    private void loginUser(){
+
+    }
+
     private void sendRequest(){
         getEmail();
         if (checkEmail()){
             // true and check get password
             getPassword();
             if (checkPassword()){
-                // true and we can navigate to home fragment
+                firebaseAuth.signInWithEmailAndPassword(email,password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    Toast.makeText(requireContext(), "ورود با موفقیت انجام شد", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(requireContext(), "حساب کاربری ثبت نشده است", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         }
     }

@@ -37,8 +37,7 @@ public class RegisterFragment extends Fragment {
     private String emailPattern = "[a-zA-Z0-9.-_]+@[a-z]+\\.+[a-z]+";
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
-
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,7 +52,6 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 sendRequest();
-                createUser();
             }
 
         });
@@ -70,10 +68,6 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-    }
-
-    private void createUser() {
 
     }
 
@@ -96,9 +90,9 @@ public class RegisterFragment extends Fragment {
                                     firebaseDatabase.getReference().child("Users").child(id).setValue(userModel);
 
 
-                                    Toast.makeText(requireContext(), "register is successful", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), "ثبت نام با وفقیت انجام شد", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(requireContext(), "Error: " + task.getException(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), "خطا در اتصال", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
