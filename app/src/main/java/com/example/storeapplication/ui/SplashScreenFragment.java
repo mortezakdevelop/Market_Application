@@ -39,6 +39,7 @@ public class SplashScreenFragment extends Fragment {
             @Override
             public void run() {
                 Navigation.findNavController(view).navigate(R.id.action_splashScreenFragment_to_loginFragment);
+
             }
         },5000);
     }

@@ -2,12 +2,14 @@ package com.example.storeapplication.ui;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ public class LoginFragment extends Fragment {
     FragmentLoginBinding fragmentLoginBinding;
     private String email;
     private String password;
+    private boolean doubleToBackButtonExit = false;
 
     private String emailPattern = "[a-zA-Z0-9.-_]+@[a-z]+\\.+[a-z]+";
     @Override
@@ -51,6 +54,27 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //finish fragment when we click back button
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (doubleToBackButtonExit){
+                    requireActivity().finish();
+                    return;
+                }
+                //handle double click for exit
+                doubleToBackButtonExit = true;
+                Toast.makeText(requireContext(), "برای خروج دوباره کلیک کنید", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doubleToBackButtonExit = false;
+                    }
+                },2000);
+            }
+        });
 
     }
 

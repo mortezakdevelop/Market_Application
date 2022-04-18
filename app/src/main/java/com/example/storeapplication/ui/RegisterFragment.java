@@ -73,31 +73,31 @@ public class RegisterFragment extends Fragment {
 
     }
 
-    private void createUser(){
+    private void createUser() {
 
     }
 
-    private void sendRequest(){
+    private void sendRequest() {
         getName();
         getEmail();
-        if (checkEmail()){
+        if (checkEmail()) {
             // true and check get password
             getPassword();
-            if (checkPassword()){
+            if (checkPassword()) {
                 //firebase auth
-                firebaseAuth.createUserWithEmailAndPassword(email,password)
+                firebaseAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     // true and we can navigate to home fragment
-                                    UserModel userModel = new UserModel(name,email,password);
+                                    UserModel userModel = new UserModel(name, email, password);
                                     String id = Objects.requireNonNull(task.getResult().getUser()).getUid();
                                     firebaseDatabase.getReference().child("Users").child(id).setValue(userModel);
 
 
                                     Toast.makeText(requireContext(), "register is successful", Toast.LENGTH_SHORT).show();
-                                }else {
+                                } else {
                                     Toast.makeText(requireContext(), "Error: " + task.getException(), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -106,46 +106,48 @@ public class RegisterFragment extends Fragment {
         }
     }
 
-    private boolean checkPassword(){
-        if (password.isEmpty()){
+    private boolean checkPassword() {
+        if (password.isEmpty()) {
             Toast.makeText(requireContext(), "پسورد خود را وارد کنید", Toast.LENGTH_SHORT).show();
             return false;
-        }else {
-            if (password.length() >= 6){
+        } else {
+            if (password.length() >= 6) {
                 return true;
-            }else {
+            } else {
                 Toast.makeText(requireContext(), "پسورد وارد شده بیشتر از شش رقم باشد", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
     }
 
-    private boolean checkEmail(){
-        if(email.isEmpty()){
+    private boolean checkEmail() {
+        if (email.isEmpty()) {
             Toast.makeText(requireContext(), "ایمیل خود را وارد کنید", Toast.LENGTH_SHORT).show();
             return false;
-        }else {
-            if (validateEmailPattern(email)){
+        } else {
+            if (validateEmailPattern(email)) {
                 return true;
-            }else {
+            } else {
                 Toast.makeText(requireContext(), "ایمیل وارد شده نا معتبر است", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
     }
 
-    private void getName(){
+    private void getName() {
         name = fragmentRegisterBinding.etRegisterName.getText().toString();
     }
-    private void getEmail(){
+
+    private void getEmail() {
         email = fragmentRegisterBinding.etRegisterEmail.getText().toString();
     }
 
-    private void getPassword(){
+    private void getPassword() {
         password = fragmentRegisterBinding.etRegisterPassword.getText().toString();
     }
+
     //check regex
-    private boolean validateEmailPattern(String eml){
+    private boolean validateEmailPattern(String eml) {
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(eml);
         return matcher.matches();
