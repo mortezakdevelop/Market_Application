@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -14,13 +14,13 @@
         tools:context=".ui.RegisterFragment">
 
         <ImageView
-            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/img_register"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+            android:src="@mipmap/regbg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/img_register"
-            android:src="@mipmap/regbg"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/et_register_name"
@@ -29,6 +29,7 @@
             android:background="@drawable/edittext_shape_background"
             android:elevation="@dimen/_3sdp"
             android:hint="نام و نام خانوادگی"
+            android:maxLines="1"
             android:padding="@dimen/_12sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +47,7 @@
             android:drawablePadding="10dp"
             android:elevation="@dimen/_3sdp"
             android:hint="ایمیل"
+            android:maxLines="1"
             android:padding="@dimen/_12sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,10 +64,11 @@
             android:background="@drawable/edittext_shape_background"
             android:drawablePadding="10dp"
             android:elevation="@dimen/_3sdp"
+            android:gravity="end"
             android:hint="رمز ورود"
             android:inputType="textPassword"
+            android:maxLines="1"
             android:padding="@dimen/_12sdp"
-            android:gravity="end"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.39"
@@ -75,22 +78,22 @@
             app:layout_constraintWidth_percent="0.9" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:text="ثبت نام"
-            android:textAllCaps="false"
-            android:textSize="@dimen/_16ssp"
-            android:textColor="@color/white"
-            android:paddingStart="@dimen/_32sdp"
-            android:paddingEnd="@dimen/_32sdp"
-            android:paddingTop="@dimen/_4sdp"
-            android:paddingBottom="@dimen/_4sdp"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:background="@drawable/btn_register_background_shape"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_register_password"
             android:id="@+id/btn_register"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:background="@drawable/btn_register_background_shape"
+            android:paddingStart="@dimen/_32sdp"
+            android:paddingTop="@dimen/_4sdp"
+            android:paddingEnd="@dimen/_32sdp"
+            android:paddingBottom="@dimen/_4sdp"
+            android:text="ثبت نام"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_register_password" />
 
         <TextView
             android:id="@+id/textView"
@@ -110,15 +113,28 @@
             android:id="@+id/tv_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
             android:text="Sign In"
             android:textColor="@color/red_500"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginStart="@dimen/_2sdp"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="@+id/textView"
             app:layout_constraintVertical_bias="0.0" />
 
+        <ProgressBar
+            android:backgroundTint="@color/black"
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX=".7"
+            android:scaleY=".7"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.136" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

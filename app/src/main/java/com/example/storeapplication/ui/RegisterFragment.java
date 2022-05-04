@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.storeapplication.R;
 import com.example.storeapplication.databinding.FragmentRegisterBinding;
 import com.example.storeapplication.model.UserModel;
+import com.example.storeapplication.viewmodel.AuthenticationViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -35,18 +37,23 @@ public class RegisterFragment extends Fragment {
     private String email;
     private String password;
     private String emailPattern = "[a-zA-Z0-9.-_]+@[a-z]+\\.+[a-z]+";
-    FirebaseAuth firebaseAuth;
-    FirebaseDatabase firebaseDatabase;
-    
+//    FirebaseAuth firebaseAuth;
+//    FirebaseDatabase firebaseDatabase;
+    private AuthenticationViewModel authenticationViewModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        authenticationViewModel = new ViewModelProvider(requireActivity()).get(AuthenticationViewModel.class);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentRegisterBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.fragment_register, container, false);
         // get instance firebase
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-
+        fragmentRegisterBinding.progressbar.setVisibility(View.GONE);
 
         fragmentRegisterBinding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,29 +80,33 @@ public class RegisterFragment extends Fragment {
 
     private void sendRequest() {
         getName();
+        fragmentRegisterBinding.progressbar.setVisibility(View.GONE);
         getEmail();
+        fragmentRegisterBinding.progressbar.setVisibility(View.GONE);
         if (checkEmail()) {
             // true and check get password
             getPassword();
+            fragmentRegisterBinding.progressbar.setVisibility(View.GONE);
             if (checkPassword()) {
                 //firebase auth
-                firebaseAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // true and we can navigate to home fragment
-                                    UserModel userModel = new UserModel(name, email, password);
-                                    String id = Objects.requireNonNull(task.getResult().getUser()).getUid();
-                                    firebaseDatabase.getReference().child("Users").child(id).setValue(userModel);
-
-
-                                    Toast.makeText(requireContext(), "ثبت نام با وفقیت انجام شد", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(requireContext(), "خطا در اتصال", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                authenticationViewModel.register(name,email,password);
+//                firebaseAuth.createUserWithEmailAndPassword(email, password)
+//                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//                                if (task.isSuccessful()) {
+//
+//                                    // true and we can navigate to home fragment
+//                                    UserModel userModel = new UserModel(name, email, password);
+//                                    String id = Objects.requireNonNull(task.getResult().getUser()).getUid();
+//                                    firebaseDatabase.getReference().child("Users").child(id).setValue(userModel);
+//
+//                                    Toast.makeText(requireContext(), "ثبت نام با وفقیت انجام شد", Toast.LENGTH_SHORT).show();
+//                                } else {
+//                                    Toast.makeText(requireContext(), "خطا در اتصال", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        });
             }
         }
     }
@@ -103,12 +114,16 @@ public class RegisterFragment extends Fragment {
     private boolean checkPassword() {
         if (password.isEmpty()) {
             Toast.makeText(requireContext(), "پسورد خود را وارد کنید", Toast.LENGTH_SHORT).show();
+            fragmentRegisterBinding.progressbar.setVisibility(View.GONE);
+
             return false;
         } else {
             if (password.length() >= 6) {
                 return true;
             } else {
                 Toast.makeText(requireContext(), "پسورد وارد شده بیشتر از شش رقم باشد", Toast.LENGTH_SHORT).show();
+                fragmentRegisterBinding.progressbar.setVisibility(View.GONE);
+
                 return false;
             }
         }
@@ -117,6 +132,7 @@ public class RegisterFragment extends Fragment {
     private boolean checkEmail() {
         if (email.isEmpty()) {
             Toast.makeText(requireContext(), "ایمیل خود را وارد کنید", Toast.LENGTH_SHORT).show();
+
             return false;
         } else {
             if (validateEmailPattern(email)) {

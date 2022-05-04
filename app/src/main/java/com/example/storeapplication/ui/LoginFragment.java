@@ -6,6 +6,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -13,6 +14,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.storeapplication.R;
@@ -22,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,6 +34,7 @@ public class LoginFragment extends Fragment {
     private String email;
     private String password;
     private boolean doubleToBackButtonExit = false;
+    boolean flag = false;
 
     FirebaseAuth firebaseAuth;
 
@@ -41,11 +45,15 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         fragmentLoginBinding = DataBindingUtil.inflate(getLayoutInflater(),R.layout.fragment_login,container,false);
         firebaseAuth = FirebaseAuth.getInstance();
+        fragmentLoginBinding.progressbar.setVisibility(View.GONE);
 
         fragmentLoginBinding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendRequest();
+                if (flag){
+                    fragmentLoginBinding.progressbar.setVisibility(View.VISIBLE);
+                }
                 loginUser();
             }
         });
@@ -84,6 +92,10 @@ public class LoginFragment extends Fragment {
             }
         });
 
+
+        //disable navigation view
+        DrawerLayout drawerLayout = requireActivity().findViewById(R.id.drawerLayout);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     private void loginUser(){
@@ -92,17 +104,24 @@ public class LoginFragment extends Fragment {
 
     private void sendRequest(){
         getEmail();
+        fragmentLoginBinding.progressbar.setVisibility(View.GONE);
         if (checkEmail()){
+
             // true and check get password
             getPassword();
+            fragmentLoginBinding.progressbar.setVisibility(View.GONE);
+
             if (checkPassword()){
                 firebaseAuth.signInWithEmailAndPassword(email,password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
-                                    Toast.makeText(requireContext(), "ورود با موفقیت انجام شد", Toast.LENGTH_SHORT).show();
+                                    fragmentLoginBinding.progressbar.setVisibility(View.GONE);
+                                    flag = true;
+                                    Navigation.findNavController(fragmentLoginBinding.getRoot()).navigate(R.id.action_loginFragment_to_homeFragment);
                                 }else{
+                                    fragmentLoginBinding.progressbar.setVisibility(View.GONE);
                                     Toast.makeText(requireContext(), "حساب کاربری ثبت نشده است", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -151,4 +170,6 @@ public class LoginFragment extends Fragment {
         Matcher matcher = pattern.matcher(eml);
         return matcher.matches();
     }
+
+
 }
