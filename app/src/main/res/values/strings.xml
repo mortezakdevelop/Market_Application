@@ -5,4 +5,5 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="email">ایمیل</string>
+    <string name="email_pattern">[a-zA-Z0-9.-_]+@[a-z]+\\.+[a-z]+</string>
 </resources>

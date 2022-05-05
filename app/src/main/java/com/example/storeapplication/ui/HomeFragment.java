@@ -3,6 +3,7 @@ package com.example.storeapplication.ui;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -14,6 +15,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +29,9 @@ import com.google.android.material.navigation.NavigationView;
 
 public class HomeFragment extends Fragment {
     MainActivity mainActivity;
+    private boolean doubleToBackButtonExit = false;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +45,21 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setupNavigation(view);
 
+        //finish fragment when we click back button
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (doubleToBackButtonExit) {
+                    requireActivity().finish();
+                    return;
+                }
+                //handle double click for exit
+                doubleToBackButtonExit = true;
+                Toast.makeText(requireContext(), "برای خروج دوباره کلیک کنید", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(() -> doubleToBackButtonExit = false, 2000);
+            }
+        });
+
     }
 
     private void setupNavigation(View view){
@@ -52,7 +72,7 @@ public class HomeFragment extends Fragment {
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if (destination.getId() == R.id.home){
+                if (destination.getId() == R.id.homeFragment){
                     toolbar.setNavigationIcon(R.drawable.ic_menu);
                     toolbar.setTitle("Home");
                 }

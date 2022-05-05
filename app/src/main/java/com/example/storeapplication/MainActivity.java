@@ -33,10 +33,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNavigationView(){
-
         navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         navController = navHostFragment.getNavController();
         appBarConfiguration = new AppBarConfiguration.Builder(R.id.categoryFragment,R.id.homeFragment,R.id.profileFragment).build();
         NavigationUI.setupWithNavController(activityMainBinding.navigationView, navController);
+
+        activityMainBinding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.exit){
+                    finish();
+                }else {
+                    NavigationUI.onNavDestinationSelected(item,navController);
+                    activityMainBinding.drawerLayout.closeDrawers();
+                }
+                return false;
+            }
+        });
     }
 }

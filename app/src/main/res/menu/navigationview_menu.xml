@@ -14,8 +14,8 @@
             android:icon="@drawable/ic_menu_gallery"/>
 
         <item
-            android:id="@+id/profileFragment"
-            android:title="نمایش"
-            android:icon="@drawable/ic_menu_slideshow"/>
+            android:id="@+id/exit"
+            android:title="خروج"
+            android:icon="@drawable/ic_baseline_exit_to_app_24"/>
 
     </menu>

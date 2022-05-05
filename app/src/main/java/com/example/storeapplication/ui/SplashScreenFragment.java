@@ -1,5 +1,6 @@
 package com.example.storeapplication.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,10 +21,12 @@ import android.view.animation.AnimationUtils;
 import com.bumptech.glide.Glide;
 import com.example.storeapplication.R;
 import com.example.storeapplication.databinding.FragmentSplashScreenBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashScreenFragment extends Fragment {
     FragmentSplashScreenBinding splashScreenBinding;
     private Animation animation;
+    private FirebaseAuth auth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +37,11 @@ public class SplashScreenFragment extends Fragment {
         setLogo();
         loadAnimation();
         showSplash(splashScreenBinding.getRoot());
+
+//        if (auth.getCurrentUser() != null){
+//            Navigation.findNavController(splashScreenBinding.getRoot()).navigate(R.id.action_splashScreenFragment_to_homeFragment);
+//        }
+
         return splashScreenBinding.getRoot();
     }
 
@@ -41,8 +49,13 @@ public class SplashScreenFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Navigation.findNavController(view).navigate(R.id.action_splashScreenFragment_to_loginFragment);
-
+                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(LoginFragment.PREFS_NAME,0);
+                boolean hasLoggedIn = sharedPreferences.getBoolean("hasLoggedIn",false);
+                if (hasLoggedIn){
+                    Navigation.findNavController(view).navigate(R.id.action_splashScreenFragment_to_homeFragment);
+                }else {
+                    Navigation.findNavController(view).navigate(R.id.action_splashScreenFragment_to_loginFragment);
+                }
             }
         },5000);
     }
