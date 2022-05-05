@@ -26,7 +26,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SplashScreenFragment extends Fragment {
     FragmentSplashScreenBinding splashScreenBinding;
     private Animation animation;
-    private FirebaseAuth auth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,10 +36,6 @@ public class SplashScreenFragment extends Fragment {
         setLogo();
         loadAnimation();
         showSplash(splashScreenBinding.getRoot());
-
-//        if (auth.getCurrentUser() != null){
-//            Navigation.findNavController(splashScreenBinding.getRoot()).navigate(R.id.action_splashScreenFragment_to_homeFragment);
-//        }
 
         return splashScreenBinding.getRoot();
     }

@@ -2,22 +2,28 @@ package com.example.storeapplication.ui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.example.storeapplication.R;
 import com.example.storeapplication.databinding.FragmentLoginBinding;
 import com.example.storeapplication.utiles.SessionManager;
+import com.example.storeapplication.viewmodel.AuthenticationViewModel;
 import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,31 +31,30 @@ public class LoginFragment extends Fragment {
     FragmentLoginBinding fragmentLoginBinding;
     private String email;
     private String password;
-    private boolean doubleToBackButtonExit = false;
-    boolean flag = false;
     FirebaseAuth firebaseAuth;
-    public static String PREFS_NAME="MyPrefs";
+    private boolean doubleToBackButtonExit = false;
+    public static String PREFS_NAME = "MyPrefs";
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentLoginBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.fragment_login, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
-        fragmentLoginBinding.progressbar.setVisibility(View.GONE);
-
         fragmentLoginBinding.btnLogin.setOnClickListener(view -> {
 
             //prevent the login page to appear after successful login
-            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME,0);
+            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, 0);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("hasLoggedIn",true);
+            editor.putBoolean("hasLoggedIn", true);
             editor.apply();
-
             sendRequest();
-            if (flag) {
-                fragmentLoginBinding.progressbar.setVisibility(View.VISIBLE);
-            }
-            loginUser();
+
         });
 
         fragmentLoginBinding.tvSignUp.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment));
@@ -80,26 +85,17 @@ public class LoginFragment extends Fragment {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
-    private void loginUser() {
-
-    }
-
     private void sendRequest() {
         getEmail();
-        fragmentLoginBinding.progressbar.setVisibility(View.GONE);
         if (checkEmail()) {
-
             // true and check get password
             getPassword();
-            fragmentLoginBinding.progressbar.setVisibility(View.GONE);
-
             if (checkPassword()) {
+                fragmentLoginBinding.progressbar.setVisibility(View.VISIBLE);
                 firebaseAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                fragmentLoginBinding.progressbar.setVisibility(View.GONE);
-                               // flag = true;
-                                    Navigation.findNavController(fragmentLoginBinding.getRoot()).navigate(R.id.action_loginFragment_to_homeFragment);
+                                Navigation.findNavController(fragmentLoginBinding.getRoot()).navigate(R.id.action_loginFragment_to_homeFragment);
                             } else {
                                 fragmentLoginBinding.progressbar.setVisibility(View.GONE);
                                 Toast.makeText(requireContext(), "حساب کاربری ثبت نشده است", Toast.LENGTH_SHORT).show();

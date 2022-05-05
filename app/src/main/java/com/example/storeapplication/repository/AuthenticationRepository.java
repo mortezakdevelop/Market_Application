@@ -1,13 +1,16 @@
 package com.example.storeapplication.repository;
 
 import android.app.Application;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.Navigation;
 
+import com.example.storeapplication.R;
 import com.example.storeapplication.model.UserModel;
+import com.example.storeapplication.ui.LoginFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,9 +26,10 @@ public class AuthenticationRepository {
     private MutableLiveData<FirebaseUser> firebaseUserMutableLiveData;
     private FirebaseAuth auth;
     private FirebaseDatabase firebaseDatabase;
+    LoginFragment loginFragment;
 
 
-    public MutableLiveData<FirebaseUser> getFirebaseUserMutableLiveData(){
+    public MutableLiveData<FirebaseUser> getFirebaseUserMutableLiveData() {
         return firebaseUserMutableLiveData;
     }
 
@@ -40,30 +44,31 @@ public class AuthenticationRepository {
         }
     }
 
-    public void register(String name,String email, String password) {
+    public void register(String name, String email, String password) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    UserModel userModel = new UserModel(name, email,password);
+                if (task.isSuccessful()) {
+                    UserModel userModel = new UserModel(name, email, password);
                     String id = Objects.requireNonNull(task.getResult().getUser()).getUid();
                     firebaseDatabase.getReference().child("Users").child(id).setValue(userModel);
                     Toast.makeText(application, "ثبت نام با وفقیت انجام شد", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(application,"خطا در اتصال", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(application, "خطا در اتصال", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-    public void login(String email, String password){
-        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+    public void login(String email, String password) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    firebaseUserMutableLiveData.postValue(auth.getCurrentUser());
-                }else {
-                    Toast.makeText(application, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
+//                if (task.isSuccessful()) {
+//                    Navigation.findNavController(loginFragment.requireView()).navigate(R.id.action_loginFragment_to_homeFragment);
+//                } else {
+//                    Toast.makeText(application, "حساب کاربری ثبت نشده است", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
     }

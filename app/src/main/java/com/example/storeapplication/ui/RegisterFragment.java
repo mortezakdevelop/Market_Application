@@ -38,8 +38,6 @@ public class RegisterFragment extends Fragment {
     private String email;
     private String password;
     private String emailPattern = "[a-zA-Z0-9.-_]+@[a-z]+\\.+[a-z]+";
-//    FirebaseAuth firebaseAuth;
-//    FirebaseDatabase firebaseDatabase;
     private AuthenticationViewModel authenticationViewModel;
 
     @Override
@@ -53,9 +51,6 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentRegisterBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.fragment_register, container, false);
-        // get instance firebase
-        fragmentRegisterBinding.progressbar.setVisibility(View.GONE);
-
         fragmentRegisterBinding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,15 +79,13 @@ public class RegisterFragment extends Fragment {
 
     private void sendRequest() {
         getName();
-        fragmentRegisterBinding.progressbar.setVisibility(View.GONE);
         getEmail();
-        fragmentRegisterBinding.progressbar.setVisibility(View.GONE);
         if (checkEmail()) {
             // true and check get password
             getPassword();
-            fragmentRegisterBinding.progressbar.setVisibility(View.GONE);
             if (checkPassword()) {
                 //firebase auth
+                fragmentRegisterBinding.progressbar.setVisibility(View.VISIBLE);
                 authenticationViewModel.register(name,email,password);
 //                firebaseAuth.createUserWithEmailAndPassword(email, password)
 //                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

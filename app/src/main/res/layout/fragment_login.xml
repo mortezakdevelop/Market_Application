@@ -118,6 +118,7 @@
             android:layout_height="wrap_content"
             android:scaleX=".7"
             android:scaleY=".7"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
