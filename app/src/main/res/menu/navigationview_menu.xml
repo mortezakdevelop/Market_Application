@@ -3,19 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-        <item
-            android:id="@+id/homeFragment"
-            android:title="خانه"
-            android:icon="@drawable/ic_baseline_home_24"/>
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="خانه" />
 
-        <item
-            android:id="@+id/categoryFragment"
-            android:title="گالری"
-            android:icon="@drawable/ic_menu_gallery"/>
+    <item
+        android:id="@+id/categoryFragment"
+        android:icon="@drawable/ic_baseline_category_24"
+        android:title="دسئه بندی" />
 
-        <item
-            android:id="@+id/exit"
-            android:title="خروج"
-            android:icon="@drawable/ic_baseline_exit_to_app_24"/>
+    <item
+        android:id="@+id/offerFragment"
+        android:icon="@drawable/ic_baseline_local_offer_24"
+        android:title="تخفیف" />
 
-    </menu>
+    <item
+        android:id="@+id/newProductFragment"
+        android:icon="@drawable/autorenew"
+        android:title="محصول جدید" />
+
+    <item
+        android:id="@+id/orderFragment"
+        android:icon="@drawable/ic_baseline_shopping_cart_24"
+        android:title="سفارشات"
+        />
+    <item
+        android:id="@+id/cartFragment"
+        android:title="کارت"
+        android:icon="@drawable/mycart"
+        />
+
+    <item
+        android:id="@+id/exit"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"
+        android:title="خروج" />
+
+</menu>

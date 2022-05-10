@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="wrap_content">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/riv_popular_image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/offers3"
+                android:padding="@dimen/_5sdp"
+                android:layout_height="@dimen/_140sdp" />
+
+            <TextView
+                android:id="@+id/tv_popular_product"
+                android:text="Popular Products"
+                android:layout_marginStart="@dimen/_4sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/riv_popular_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/tv_popular_product"
+                android:text="description"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:singleLine="true"
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/iv_ratingbar"
+                android:src="@drawable/ratingbar"
+                android:layout_marginStart="@dimen/_4sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_description"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_30sdp" />
+
+
+            <TextView
+                android:id="@+id/tv_five_ratingbar"
+                android:text="5.0"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintStart_toEndOf="@id/iv_ratingbar"
+                app:layout_constraintTop_toTopOf="@id/iv_ratingbar"
+                app:layout_constraintBottom_toBottomOf="@id/iv_ratingbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_discount_off"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/_4sdp"
+                app:layout_constraintTop_toTopOf="@id/iv_ratingbar"
+                app:layout_constraintBottom_toBottomOf="@id/iv_ratingbar"
+                android:text="Discount 20% off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

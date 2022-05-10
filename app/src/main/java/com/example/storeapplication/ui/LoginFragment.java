@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.example.storeapplication.R;
 import com.example.storeapplication.databinding.FragmentLoginBinding;
-import com.example.storeapplication.utiles.SessionManager;
 import com.example.storeapplication.viewmodel.AuthenticationViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 

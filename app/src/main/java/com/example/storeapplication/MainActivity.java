@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupNavigationView(){
         navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         navController = navHostFragment.getNavController();
-        appBarConfiguration = new AppBarConfiguration.Builder(R.id.categoryFragment,R.id.homeFragment,R.id.profileFragment).build();
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.categoryFragment,R.id.homeFragment,R.id.cartFragment,R.id.newProductFragment,R.id.offerFragment,R.id.orderFragment).build();
         NavigationUI.setupWithNavController(activityMainBinding.navigationView, navController);
 
         activityMainBinding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

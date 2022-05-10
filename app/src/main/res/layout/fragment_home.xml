@@ -1,18 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.HomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include
-        android:id="@+id/included"
-        layout="@layout/toolbar_layout"
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="match_parent"
+        tools:context=".ui.HomeFragment">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/included"
+            layout="@layout/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:elevation="@dimen/_1sdp"
+            app:layout_constraintTop_toBottomOf="@id/included"
+            android:background="@drawable/search_gb"
+            android:padding="@dimen/_10sdp"
+            android:drawableStart="@drawable/ic_baseline_search_24"
+            android:layout_margin="@dimen/_6sdp"
+            android:gravity="start"
+            android:hint="Search"
+            android:drawablePadding="@dimen/_4sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_search"
+            android:text="Popular Product"
+            android:layout_margin="@dimen/_6sdp"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/black"
+            android:id="@+id/tv_popular_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_view_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_6sdp"
+            android:text="View All"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/red_500"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_popular_product"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_popular_product" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_popular_recycler"
+            app:layout_constraintTop_toBottomOf="@id/tv_popular_product"
+            android:layout_margin="@dimen/_5sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_popular_recycler"
+            android:text="Explore Categories"
+            android:layout_margin="@dimen/_6sdp"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/black"
+            android:id="@+id/tv_explore_categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_view_all2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_6sdp"
+            android:text="View All"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/red_500"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_explore_categories"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_explore_categories" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_explore_recycler2"
+            app:layout_constraintTop_toBottomOf="@id/tv_explore_categories"
+            android:layout_margin="@dimen/_5sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_explore_recycler2"
+            android:text="Recommended"
+            android:layout_margin="@dimen/_6sdp"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/black"
+            android:id="@+id/tv_recommended"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_view_all3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_6sdp"
+            android:text="View All"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/red_500"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_recommended"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_recommended" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recommended_recycler3"
+            app:layout_constraintTop_toBottomOf="@id/tv_recommended"
+            android:layout_margin="@dimen/_5sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
